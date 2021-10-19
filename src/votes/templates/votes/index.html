@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Proposals</title>
+</head>
+
+<body>
+  <h1>Select proposals to work on</h1>
+  {% if proposals_list %}
+  <ul>
+    {% for proposal in proposals_list %}
+    <li><a href="/votes/{{ question.id }}/">{{ proposals_list.text }}</a></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>There are no proposals</p>
+  {% endif %}
+</body>
+
+</html>
