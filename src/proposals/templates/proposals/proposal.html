@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Proposal {{ proposal.id }}</title>
+{% endblock title %}
+
+{% block content %}
+<h2>Proposal:</h2>
+<div>{{ proposal.description }}</div>
+<h2>Voting starts:</h2>
+<div>{{ proposal.vote_start_date }}</div>
+<h2>Voting ends:</h2>
+<div>{{ proposal.vote_end_date }}</div>
+
+<h2>Yes Votes:</h2>
+<div>{{ proposal.yes_votes }}</div>
+<h2>No Votes:</h2>
+<div>{{ proposal.no_votes }}</div>
+
+{% if user_has_voted %}
+
+<div>You voted: </div>
+{% if user_vote %}
+<div>Yes</div>
+{% else %}
+<div>No</div>
+{% endif %}
+{% else %}
+
+<form action="{% url 'proposals:vote' %}" method="POST">
+  {% csrf_token %}
+  <input type="number" name='proposal_id' hidden='true' value={{proposal.id}}>
+  <input type="text" name='vote' hidden='true' value='true'>
+  <input type="submit" value="Vote Yes">
+</form>
+<form action="{% url 'proposals:vote' %}" method="POST">
+  {% csrf_token %}
+  <input type="number" name='proposal_id' hidden='true' value={{proposal.id}}>
+  <input type="text" name='vote' hidden='true' value='false'>
+  <input type="submit" value="Vote No">
+</form>
+{% endif %}
+
+{% endblock content %}

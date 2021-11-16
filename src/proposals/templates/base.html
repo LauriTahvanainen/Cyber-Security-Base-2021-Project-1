@@ -1,0 +1,34 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  {% block title %}
+  {% endblock title %}
+
+  <nav>
+    <button onclick="window.location.href='/proposals'">Home</button>
+    {% if user %}
+    <button onclick="window.location.href='/proposals/signout'">Sign Out</button>
+    {% else %}
+    <button onclick="window.location.href='/proposals/login'">Login</button>
+    <button onclick="window.location.href='/proposals/register'">Register</button>
+    {% endif %}
+    <button onclick="window.location.href='/proposals/proposal/new'">Create a proposal</button>
+  </nav>
+
+  {% if message %}
+  <div>{{ message }}</div>
+  {% endif %}
+</head>
+
+<body>
+  {% block content %}
+  {% endblock content%}
+</body>
+
+</html>
