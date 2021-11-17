@@ -27,6 +27,8 @@
 {% endif %}
 {% else %}
 
+{% if voting_open %}
+
 <form action="{% url 'proposals:vote' %}" method="POST">
   {% csrf_token %}
   <input type="number" name='proposal_id' hidden='true' value={{proposal.id}}>
@@ -39,6 +41,9 @@
   <input type="text" name='vote' hidden='true' value='false'>
   <input type="submit" value="Vote No">
 </form>
+{% else %}
+<div>Voting is not open</div>
+{% endif %}
 {% endif %}
 {% endif %}
 

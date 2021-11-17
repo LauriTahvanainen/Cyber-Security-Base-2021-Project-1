@@ -78,7 +78,10 @@ def proposal(request, proposal_id):
             context['user_has_voted'] = True
             context['user_vote'] = userVote.vote
 
+        votingOpen = proposal.vote_start_date < timezone.now() and timezone.now() < proposal.vote_end_date
+
         context['proposal'] = proposal
+        context['voting_open'] = votingOpen
         return render(request, 'proposals/proposal.html', context)
 
 
