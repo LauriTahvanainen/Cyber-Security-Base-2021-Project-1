@@ -166,17 +166,22 @@ newProposal.save()
 If one still needs to use raw SQL, the sanitazion of all the given parameters should be done properly.
 
 ## FLAW 4:
+#### [A02:2021 – Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
 
 ### Source
+https://github.com/LauriTahvanainen/Cyber-Security-Base-2021-Project-1/blob/main/src/proposals/utils/auth.py#L7
 
 ### Description
-
+The self-made authentication system does not use cryptographically strong enough of a hashing function for the passwords. The implementation uses the MD5 algorithm, which is not considered safe anymore. An 8 character password can be cracked in a handful of minutes. 
+Also, the password are not salted. Not using salting makes the already weak hashes vulnerable to attacks that use precomputed tables of passwords and hashes.
 ### Fix
-
+The system should use a safe hashing function such as SHA-3 with random salting. The salt should be long, in case of SHA-3 atleast 256 bits.
 
 ## FLAW 5:
+#### [A02:2021 – Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
 
 ### Source
+https://github.com/LauriTahvanainen/Cyber-Security-Base-2021-Project-1/blob/main/src/proposals/utils/auth.py#L7
 
 ### Description
 
