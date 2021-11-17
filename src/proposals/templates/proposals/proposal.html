@@ -16,6 +16,7 @@
 <h2>No Votes:</h2>
 <div>{{ proposal.no_votes }}</div>
 
+{% if user %}
 {% if user_has_voted %}
 
 <div>You voted: </div>
@@ -38,6 +39,7 @@
   <input type="text" name='vote' hidden='true' value='false'>
   <input type="submit" value="Vote No">
 </form>
+{% endif %}
 {% endif %}
 
 {% endblock content %}
