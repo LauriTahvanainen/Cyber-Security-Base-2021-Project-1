@@ -101,7 +101,7 @@ Following the OWASP description on this vulnerability category, the implemented 
 
 The system accept any password, as short or common as possible.
 
-The login could be brute forced, there is no system against that.
+The login could be brute forced.
 
 The hash is unsalted and weak, thus easy to crack by brute force.
 
@@ -110,7 +110,7 @@ There is no multifactor authentication.
 The authentication token does not expire. Only reset when user signs out
 
 Some attacks against this authentication system thus are:
-One can brute force a login quite easily with some automated sign in program. If an attacker knows an username, and when approximately the user signed in, it is very easy to brute force a correct authentication token. Thus the attacker can bypass brute forcing the login. When the attacker manages to get the token, it can be used to until the user signs out.
+One can brute force a login quite easily with some automated program. If an attacker knows an username, and when approximately the user signed in, it is very easy to brute force a correct authentication token. Thus the attacker can bypass brute forcing the login and just guess the authentication token. When the attacker manages to get the token, it can be used to until the user signs out.
 
 ### Fix
 Code examples for this fix from [here](https://docs.djangoproject.com/en/3.2/topics/auth/default/)
@@ -138,7 +138,7 @@ The library also has group management.
 
 By using the library correctly, all the above mentioned vulnerabilities can be fixed.
 
-
+If one wants to go with the existing system, then it should use better cryptography for the passwords and the authentication token. The authentication token should also have a time limit.
 
 ## FLAW 3:
 #### [A03:2021 – Injection ](https://owasp.org/Top10/A03_2021-Injection/)
@@ -163,7 +163,7 @@ newProposal = Proposal(text = text, vote_start_date = startDate, vote_end_date =
 newProposal.save()
 ```
 
-If one still needs to use raw SQL, the sanitazion of all the given parameters should be done properly.
+If one still needs to use raw SQL, the sanitatization of all the given parameters should be done properly.
 
 ## FLAW 4:
 #### [A02:2021 – Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
@@ -173,7 +173,7 @@ https://github.com/LauriTahvanainen/Cyber-Security-Base-2021-Project-1/blob/main
 
 ### Description
 The self-made authentication system does not use cryptographically strong enough of a hashing function for the passwords. The implementation uses the MD5 algorithm, which is not considered safe anymore. An 8 character password can be cracked in a handful of minutes. 
-Also, the password are not salted. Not using salting makes the already weak hashes vulnerable to attacks that use precomputed tables of passwords and hashes.
+Also, the passwords are not salted. Not using salting makes the already weak hashes vulnerable to attacks that use precomputed tables of passwords and hashes.
 ### Fix
 The system should use a safe hashing function such as SHA-3 with random salting. The salt should be long, in case of SHA-3 atleast 256 bits.
 
@@ -183,10 +183,12 @@ The system should use a safe hashing function such as SHA-3 with random salting.
 ### Source
 
 ### Description
-The application does not have any kind of a logging system. This makes it very hard to monitor attacks and to react to them. For example in the case of the attacker doing an SQL injection for a new proposal, the attacker could set the creator of the proposal to be another user and because of there not being logging, it would be very harder to connect the attacker to the attack.
-There should at least be logging when authentication isa accessed.
+The application does not have any kind of a logging system. This makes it very hard to monitor attacks and to react to them. For example in the case of the attacker doing an SQL injection for a new proposal, the attacker could set the creator of the proposal to be another user and because of there not being logging, it would be very hard to connect the attacker to the attack.
+There should at least be logging when authentication is accessed.
 
-Warning and logs are also not being logged and on another tangent, some errors might be shown to the end user. An attacker could gather information from these errors.
+Warning and logs are also not being logged.
+
+Some errors might be shown to the end user, and thus logging is not contained. An attacker could gather information from these errors.
 
 ### Fix
 A logging system should be implemented or an existing system should be used. Django also has some ready made logging capabilities: https://docs.djangoproject.com/en/3.2/topics/logging/
