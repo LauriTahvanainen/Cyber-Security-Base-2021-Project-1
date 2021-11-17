@@ -78,7 +78,8 @@ def proposal(request, proposal_id):
             context['user_has_voted'] = True
             context['user_vote'] = userVote.vote
 
-        votingOpen = proposal.vote_start_date < timezone.now() and timezone.now() < proposal.vote_end_date
+        votingOpen = proposal.vote_start_date < timezone.now(
+        ) and timezone.now() < proposal.vote_end_date
 
         context['proposal'] = proposal
         context['voting_open'] = votingOpen
@@ -175,9 +176,12 @@ def signout(request):
 
 def register(request):
     if request.method == 'POST':
+        user = authenticateUser(request)
+
         context = {
             'status': 'Success',
-            'status_message': 'New account has been created!'
+            'status_message': 'New account has been created!',
+            'user': user
         }
         try:
             username = request.POST['username']
@@ -192,4 +196,8 @@ def register(request):
             context['status_message'] = 'Register unsuccessful!'
         return render(request, 'proposals/operationstatus.html', context)
     elif request.method == 'GET':
-        return render(request, 'proposals/register.html')
+        user = authenticateUser(request)
+        if user == None:
+            return render(request, 'proposals/register.html', {'user': None})
+
+        return redirect('/proposals')
