@@ -133,6 +133,19 @@ def vote(request):
         return render(request, 'proposals/proposal.html', context)
 
 
+def proposals_voted_on(request, user_id):
+    if request.method == 'GET':
+        user = authenticateUser(request)
+        context = {
+          'user': user
+        }
+
+        userVotes = ProposalVote.objects.select_related('proposal_id').filter(voter_id=user_id).all()
+
+        context['user_votes'] = userVotes
+        return render(request, 'proposals/voted.html', context)
+        
+
 def login(request):
     if request.method == 'POST':
         context = {

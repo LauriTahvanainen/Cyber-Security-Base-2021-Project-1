@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>User votes</title>
+{% endblock title %}
+
+{% block content %}
+<h1>Users {{ user.username }} votes to proposals</h1>
+{% if user_votes %}
+<ul>
+  {% for vote in user_votes %}
+  <li>
+    <a href=" /proposals/{{ vote.proposal_id.id }}/">{{ vote.proposal_id.description }}</a>
+    {% if vote.vote %}
+    <span>User vote: Yes</span>
+    {% else %}
+    <span>User vote: No</span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>There are no proposals</p>
+{% endif %}
+{% endblock content %}

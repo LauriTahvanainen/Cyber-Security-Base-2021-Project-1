@@ -10,5 +10,6 @@ urlpatterns = [
     path('register', views.register, name='register'),
     path('<int:proposal_id>/', views.proposal, name='proposal'),
     path('proposal/vote', views.vote, name='vote'),
-    path('signout', views.signout, name='signout')
+    path('signout', views.signout, name='signout'),
+    path('voted/<int:user_id>', views.proposals_voted_on, name='proposals_voted_on')
 ]
