@@ -1,5 +1,5 @@
 LINK: https://github.com/LauriTahvanainen/Cyber-Security-Base-2021-Project-1
-The application is a platform for creating proposal and then voting on those proposals.
+The application is a platform for creating proposals and then users voting on those proposals.
 
 ## Installation
 The project is a Python Django web application. To run the app locally:
@@ -141,13 +141,29 @@ By using the library correctly, all the above mentioned vulnerabilities can be f
 
 
 ## FLAW 3:
+#### [A03:2021 – Injection ](https://owasp.org/Top10/A03_2021-Injection/)
 
 ### Source
+https://github.com/LauriTahvanainen/Cyber-Security-Base-2021-Project-1/blob/main/src/proposals/views.py#L50
 
 ### Description
+Using raw SQL, in this case leads to an SQL injection.
+For example by giving this proposal description when creating a new proposal:
+
+*Is hacking evil?", "2000-12-12 12:12:00+00:00", "2033-12-12 12:12:00+00:00", 1, 1000, 10);--*
+
+An attacker can create a proposal with any amount of yes votes, in this case 1000. An attacker can even insert someone else as the creator of the proposal.
+
 
 ### Fix
+The problem is fixed by using the django ORM, which protects against SQL-injection:
 
+```
+newProposal = Proposal(text = text, vote_start_date = startDate, vote_end_date = endDate, proposer_id = user.id)
+newProposal.save()
+```
+
+If one still needs to use raw SQL, the sanitazion of all the given parameters should be done properly.
 
 ## FLAW 4:
 
