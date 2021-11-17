@@ -11,9 +11,9 @@
   <li>
     <a href=" /proposals/{{ vote.proposal_id.id }}/">{{ vote.proposal_id.description }}</a>
     {% if vote.vote %}
-    <span>User vote: Yes</span>
+    <span>Voted: Yes</span>
     {% else %}
-    <span>User vote: No</span>
+    <span>Voted: No</span>
     {% endif %}
   </li>
   {% endfor %}
