@@ -178,12 +178,22 @@ Also, the password are not salted. Not using salting makes the already weak hash
 The system should use a safe hashing function such as SHA-3 with random salting. The salt should be long, in case of SHA-3 atleast 256 bits.
 
 ## FLAW 5:
-#### [A02:2021 – Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
+#### [A09:2021 – Security Logging and Monitoring Failures ](https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)
 
 ### Source
-https://github.com/LauriTahvanainen/Cyber-Security-Base-2021-Project-1/blob/main/src/proposals/utils/auth.py#L7
 
 ### Description
+The application does not have any kind of a logging system. This makes it very hard to monitor attacks and to react to them. For example in the case of the attacker doing an SQL injection for a new proposal, the attacker could set the creator of the proposal to be another user and because of there not being logging, it would be very harder to connect the attacker to the attack.
+There should at least be logging when authentication isa accessed.
+
+Warning and logs are also not being logged and on another tangent, some errors might be shown to the end user. An attacker could gather information from these errors.
 
 ### Fix
+A logging system should be implemented or an existing system should be used. Django also has some ready made logging capabilities: https://docs.djangoproject.com/en/3.2/topics/logging/
 
+At the end of sign in, one would write to a log file for example like this:
+
+```
+logger.info("Sign in     Username: " + username + " at: " + timestamp)
+```
+The log files would be backed up repeatedly.
